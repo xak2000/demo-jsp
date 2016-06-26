@@ -9,7 +9,7 @@ spring:
   profiles: prod
   datasource:
     # DataSource settings: set here configurations for the database connection.
-    # !! Do not forget to change MySQL server timezone here !!
+    # !! Do not forget to change MySQL server timezone at the end of the url !!
     # Default timezone: Europe/Kiev
     url: jdbc:mysql://mysql_host:3306/db_name?useUnicode=yes&characterEncoding=UTF-8&zeroDateTimeBehavior=convertToNull&useLegacyDatetimeCode=false&serverTimezone=Europe/Kiev
     username: mysql_user
