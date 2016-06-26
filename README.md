@@ -27,9 +27,9 @@ profile selection setting.
 
 Enter into `demo-jsp` folder, then run:
 
-`
+```
 ./gradlew bootRun
-`
+```
 
 *This way application will run in embedded tomcat server using embedded `H2` database.*
 
@@ -39,10 +39,10 @@ Open URL `http://localhost:8080` in the browser.
 
 Enter into `demo-jsp` folder, then run:
 
-`
+```
 ./gradlew build
 java -jar ./build/libs/demo-jsp-0.0.1-SNAPSHOT.war
-`
+```
 
 Open URL `http://localhost:8080` in the browser.
 
@@ -52,9 +52,9 @@ Open URL `http://localhost:8080` in the browser.
 
 Enter into `demo-jsp` folder, then run:
 
-`
+```
 ./gradlew build
-`
+```
 
 Create database structure on MySQL server using `mysql/schema.sql` and `mysql/data.sql` scripts.
 
@@ -66,11 +66,11 @@ Modify new copy of `application.yml` file to reflect your database settings. Esp
 `url`, `username` and `password` properties.
 
 The desired directory sctructure should be:
-`
+```
 |-your_new_folder
   |-demo-jsp-0.0.1-SNAPSHOT.war
   |-application.yml
-`
+```
 
 Run `java -jar ./demo-jsp-0.0.1-SNAPSHOT.war` from this folder.
 
@@ -92,7 +92,7 @@ configuration file for deployed instance.
 
 Example:
 `$CATALINA_BASE/conf/[enginename]/[hostname]/demo-jsp-0.0.1-SNAPSHOT.xml`
-`
+```
 <Context docBase="/path/to/your/war/your.war">
     <Parameter name="spring.profiles.active" value="prod" />
     <Parameter name="spring.datasource.url" value="jdbc:mysql://mysql_host:3306/db_name?useUnicode=yes&characterEncoding=UTF-8&zeroDateTimeBehavior=convertToNull&useLegacyDatetimeCode=false&serverTimezone=Europe/Kiev" />
@@ -100,4 +100,4 @@ Example:
     <Parameter name="spring.datasource.password" value="mysql_password" />
     <Parameter name="server.port" value="9090" />
 </Context>
-`
+```
