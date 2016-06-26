@@ -1,0 +1,123 @@
+def vJavaLang = '1.8'
+def gradleDir = "${rootProject.rootDir}/gradle"
+
+wrapper.gradleVersion = '2.13'
+
+buildscript {
+	ext {
+		springBootVersion = '1.3.5.RELEASE'
+	}
+	repositories {
+		mavenCentral()
+	}
+	dependencies {
+		classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}") 
+	}
+}
+
+apply plugin: 'java'
+apply plugin: 'eclipse-wtp'
+apply plugin: 'spring-boot' 
+apply plugin: 'war'
+
+apply from: "$gradleDir/integTest.gradle"
+
+war {
+	baseName = 'demo-jsp'
+	version = '0.0.1-SNAPSHOT'
+}
+
+sourceCompatibility = vJavaLang
+targetCompatibility = vJavaLang
+
+repositories {
+	mavenCentral()
+}
+
+configurations {
+	providedRuntime
+	apt
+
+	// replaced with jcl-over-slf4j
+	all*.exclude group: 'commons-logging', module: 'commons-logging'
+	// replaced with log4j-over-slf4j
+	all*.exclude group: 'log4j', module: 'log4j'
+}
+
+dependencies {
+	
+	// spring boot starters
+	compile 'org.springframework.boot:spring-boot-starter-data-jpa'
+	compile 'org.springframework.boot:spring-boot-starter-web'
+
+	// All logging through SLF4J API
+	compile 'org.slf4j:slf4j-api'
+
+	// dev tools
+	compile 'org.springframework.boot:spring-boot-devtools'
+
+	// datasource and connection pool
+	runtime 'com.h2database:h2'
+	runtime 'mysql:mysql-connector-java'
+	runtime 'org.apache.tomcat:tomcat-jdbc'
+
+	// Hibernate java8 date and time support
+	compile "org.hibernate:hibernate-java8:${property('hibernate.version')}"
+
+	// QueryDSL and QueryDSL Metamodel generator
+	compile "com.mysema.querydsl:querydsl-jpa:${property('querydsl.version')}"
+	apt "com.mysema.querydsl:querydsl-apt:${property('querydsl.version')}"
+
+	// Google guava for common utils
+	compile "com.google.guava:guava:${property('guava.version')}"
+
+	// JSP
+	providedRuntime 'org.apache.tomcat.embed:tomcat-embed-jasper'
+	compile 'javax.servlet:jstl'
+
+	// To make WAR packaging work fine
+	providedRuntime 'org.springframework.boot:spring-boot-starter-tomcat'
+
+	// Test dependencies
+	testCompile 'org.springframework.boot:spring-boot-starter-test'
+	testCompile "com.github.springtestdbunit:spring-test-dbunit:${property('spring-test-dbunit.version')}"
+	testCompile "org.dbunit:dbunit:${property('dbunit.version')}"
+	
+	// client dependencies
+	compile 'org.webjars:bootstrap:3.3.6'
+	compile 'org.webjars:momentjs:2.13.0'
+	compile 'org.webjars:jquery:1.12.4'
+	compile 'org.webjars:bootstrap-datepicker:1.6.1'
+}
+
+sourceSets {
+	generated {
+		java {
+			srcDirs = ['build/generated-src/apt/main']
+		}
+	}
+}
+
+task genApt(type: JavaCompile, group: 'build', description: 'Generates sources using configured Annotation Processors') {
+	//project.configurations.apt.extendsFrom compile
+	source sourceSets.main.java
+	classpath = configurations.compile + configurations.apt
+	options.compilerArgs = [
+		"-proc:only",
+		"-processor", "com.mysema.query.apt.jpa.JPAAnnotationProcessor",
+		"-Aquerydsl.entityAccessors=true"
+	]
+	destinationDir = sourceSets.generated.java.srcDirs.iterator().next()
+}
+
+compileJava {
+	dependsOn genApt
+	source genApt.destinationDir
+}
+
+eclipse {
+	classpath {
+		 containers.remove('org.eclipse.jdt.launching.JRE_CONTAINER')
+		 containers 'org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.8'
+	}
+}

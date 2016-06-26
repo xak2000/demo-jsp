@@ -1,0 +1,25 @@
+spring.profiles.active: prod
+
+---
+########################################################################################
+# All default properties are automatically inherited if not explicitly overriden here. #
+########################################################################################
+
+spring:
+  profiles: prod
+  datasource:
+    # DataSource settings: set here configurations for the database connection.
+    # !! Do not forget to change MySQL server timezone here !!
+    # Default timezone: Europe/Kiev
+    url: jdbc:mysql://mysql_host:3306/db_name?useUnicode=yes&characterEncoding=UTF-8&zeroDateTimeBehavior=convertToNull&useLegacyDatetimeCode=false&serverTimezone=Europe/Kiev
+    username: mysql_user
+    password: mysql_password
+
+server:
+  port: 80
+
+# logging levels (in order of increasing chattiness): off, fatal, error, warn, info, debug, trace.  
+logging:
+  level:
+    root: warn
+    demo: info

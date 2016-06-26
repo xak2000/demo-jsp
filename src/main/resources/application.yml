@@ -1,0 +1,94 @@
+# Properties for all profiles.
+# This properties are always used if not overriden by another profile's properties
+# with the same names or command line arguments as --property_name=property_value.
+
+spring:
+  profiles:
+    # Activate the DEV profile by default.
+    active: dev
+  datasource:
+    sqlScriptEncoding: UTF-8
+  jpa:
+    properties:
+      hibernate:
+        id:
+          # Old way the @GeneratedValue is interpreted by default on identifiers
+          # i.e. GenerationType.AUTO is GenerationType.IDENTITY (the new way is GenerationType.SEQUENCE)
+          # We need this because we use org.springframework.data.jpa.domain.AbstractPersistable
+          # which uses @GeneratedValue(strategy = GenerationType.AUTO) on ID field.
+          new_generator_mappings: false
+        format_sql: true
+        use_sql_comments: true
+  mvc:
+    view:
+      prefix: /WEB-INF/jsp/
+      suffix: .jsp
+
+---
+
+# Properties for DEV profile.
+# Run the application with --spring.profiles.active=dev for activate this profile.
+# Also this profile is active by default if not overriden by command line argument etc.
+# All default properties are automatically inherited if not explicitly overriden here.
+
+spring:
+  profiles: dev
+
+# loggers
+logging:
+  level:
+    root: info
+    demo: debug
+#    org.springframework.web: debug
+    org.springframework.web.context.support: debug
+
+---
+
+# Properties for PROD profile.
+# Run the application with --spring.profiles.active=prod for activate this profile.
+# All default properties are automatically inherited if not explicitly overriden here.
+
+spring:
+  profiles: prod
+  datasource:
+    # Don't execute schema.sql and data.sql on startup
+    initialize: false
+
+    # DataSource settings: set here configurations for the database connection.
+    # !! Do not forget to change MySQL server timezone here !!
+    # Default timezone: Europe/Kiev
+    url: jdbc:mysql://host:3306/db_name?useUnicode=yes&characterEncoding=UTF-8&zeroDateTimeBehavior=convertToNull&useLegacyDatetimeCode=false&serverTimezone=Europe/Kiev
+    username: mysql_user
+    password: mysql_password 
+    driver-class-name: com.mysql.jdbc.Driver
+
+    # DB Connection pool properties
+    validation-query: SELECT 1
+    test-on-borrow: true
+
+  jpa:
+    properties:
+      # Use spring.jpa.properties.* for Hibernate native properties (the prefix is
+      # stripped before adding them to the entity manager).
+      # See: https://docs.jboss.org/hibernate/orm/5.0/manual/en-US/html/ch03.html
+      # for the list of valid hibernate properties.
+      hibernate:
+        dialect: org.hibernate.dialect.MySQL5InnoDBDialect
+        connection:
+          characterEncoding: UTF-8
+          charSet: UTF-8
+        jdbc:
+          fetch_size: 100
+          batch_size: 25
+        default_batch_fetch_size: 100
+    hibernate:
+      # Hibernate ddl auto ("none", "validate", "update", "create", "create-drop")
+      # Default to "create-drop" when using an embedded database, "none" otherwise.
+      # *** DO NOT SET IT IN PRODUCTION DATABASE ENVIRONMENT TO ANY VALUE EXCEPT "none" or "validate" ***
+      ddl-auto: validate 
+
+# logging levels (in order of increasing chattiness): off, fatal, error, warn, info, debug, trace.  
+logging:
+  level:
+    root: warn
+    demo: info

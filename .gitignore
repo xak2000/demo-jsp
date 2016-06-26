@@ -1,0 +1,51 @@
+# Mac
+.DS_Store
+
+# Win
+Thumbs.db
+ehthumbs.db
+
+# Log files
+logs
+*.log
+
+# Runtime data
+pids
+*.pid
+*.seed
+
+# tsd type definitions
+**/typings/**/*.d.ts
+**/typings/tsd.cached.json
+
+# client (npm, bower etc)
+bower_components/
+node_modules/
+coverage/
+report/
+build/
+tmp/
+npm-debug.log
+
+
+# Eclipse
+# > the following should be created by `./gradlew eclipse`
+.classpath
+.project
+.settings
+.springBeans
+.externalToolBuilders
+.tern-project
+bin
+
+# IDEA
+.idea
+*.iml
+*.ipr
+*.iws
+out
+
+# Gradle
+.gradle
+build
+/build
