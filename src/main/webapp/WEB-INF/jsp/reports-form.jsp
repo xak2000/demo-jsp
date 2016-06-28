@@ -72,7 +72,9 @@
 		</div><!-- .form-group -->
 	</spring:bind><!-- timePeriod -->
 
-	<input type="submit" value="<spring:message code="report.search" />"
-		class="btn btn-lg btn-primary pull-right search-btn">
+	<button type="submit" class="btn btn-lg btn-primary pull-right search-btn">
+		<span class="glyphicon glyphicon-search" aria-hidden="true"></span>
+		<spring:message code="report.search" />
+	</button>
 
 </form:form><!-- Reports search form -->
