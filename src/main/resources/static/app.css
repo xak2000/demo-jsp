@@ -1,7 +1,8 @@
 /* 
-The twitter-bootstrap css-framework has covered all the necessary styles
-and we don't need any custom styles, so the most styles here are empty.
-But if we need more customization without touching HTML - we can do this here.
+The twitter-bootstrap css-framework (http://getbootstrap.com/css/) has covered
+all the necessary styles and we don't need any custom styles, so the most styles
+here are empty. But if we need more customization without touching HTML - we can
+do this here.
 */
 
 .reports-search-panel {}
