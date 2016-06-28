@@ -12,6 +12,7 @@
 <head>
 	<title><spring:message code="report.reports" /></title>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	<link rel="stylesheet" href="${contextPath}/app.css">
 	<link rel="stylesheet" href="${contextPath}/webjars/bootstrap/3.3.6/css/bootstrap.min.css">
 	<link rel="stylesheet" href="${contextPath}/webjars/bootstrap-datepicker/1.6.1/css/bootstrap-datepicker3.min.css">
 </head>
@@ -24,7 +25,7 @@
 
 		<div class="row">
 			<div class="col-xs-12 col-sm-8 col-md-6 col-lg-4">
-				<div class="panel panel-default">
+				<div class="panel panel-default reports-search-panel">
 					<div class="panel-body">
 						<%@ include file="reports-form.jsp" %>
 					</div><!-- .panel-body -->
@@ -37,7 +38,7 @@
 				<c:if test="${reports != null}"><%-- Null means form error --%>
 					<c:choose>
 						<c:when test="${reports.isEmpty()}">
-							<div class="panel panel-default">
+							<div class="panel panel-default reports-notfound-panel">
 								<div class="panel-body">
 								  <spring:message code="report.notFound" />
 								</div>
