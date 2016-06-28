@@ -7,7 +7,7 @@
 
 <c:set var="contextPath" value="${pageContext.request.contextPath}"/>
 
-<html lang="en">
+<html>
 
 <head>
 	<title><spring:message code="report.reports" /></title>
